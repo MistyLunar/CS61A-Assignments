@@ -142,6 +142,9 @@ def always_roll_5(score, opponent_score):
     """
     return 5
 
+def next_player(who):
+    return 1 - who
+
 
 def play(strategy0, strategy1, update,
          score0=0, score1=0, dice=six_sided, goal=GOAL):
@@ -171,7 +174,15 @@ def play(strategy0, strategy1, update,
     """
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    while score0 < goal and  score1 < goal:
+        if who ==0:
+            num_rolls0 = strategy0(score0, score1)
+            score0 = update(num_rolls0, score0, score1, dice)
+        else:
+            num_rolls1 = strategy1(score1, score0)
+            score1 = update(num_rolls1, score1, score0, dice)
+        who = next_player(who)
+
     # END PROBLEM 5
     return score0, score1
 
